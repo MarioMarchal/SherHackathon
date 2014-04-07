@@ -62,6 +62,7 @@ public class MapActivity extends ActionBarActivity {
 		//LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE); 
 		
 	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -70,6 +71,7 @@ public class MapActivity extends ActionBarActivity {
 		//getMenuInflater().inflate(R.menu.map, menu);
 		return true;
 	}
+	
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -119,6 +121,71 @@ public class MapActivity extends ActionBarActivity {
 			return rootView;
 		}
 		
+		
+		//------------
+		
+		public void onActivityCreated(Bundle savedInstanceState){
+            super.onActivityCreated(savedInstanceState);
+            
+            pd = new ProgressDialog(getActivity());
+            pd.setTitle("On cherche...");
+            pd.setMessage("Juste un instant...");
+            pd.setCancelable(false);
+            pd.setIndeterminate(true);
+            pd.show();
+            
+            
+            //tx=(TextView)getView().findViewById(R.id.testText);
+            //map = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+            new SportPoints().execute();
+            //piscine=new LatLng(myLat, myLong);
+            mapper = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map))
+                    .getMap();
+                /*Marker hamburg = mapper.addMarker(new MarkerOptions().position(POS)
+                    .title("You are here"));*/
+          
+          
+            //---------------
+             // Acquire a reference to the system Location Manager
+                LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+                // Define a listener that responds to location updates
+                LocationListener locationListener = new LocationListener() {
+                  
+                    public void onLocationChanged(Location location) {
+                      // Called when a new location is found by the network location provider.
+                      //makeUseOfNewLocation(location);
+                        myLong = location.getLongitude();
+                        myLat = location.getLatitude();
+                        POS=new LatLng(myLat, myLong);
+                        Marker here = mapper.addMarker(new MarkerOptions().position(POS)
+                                .title("You are here")
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+                         // Move the camera instantly to your location with a zoom of 25.
+                        mapper.moveCamera(CameraUpdateFactory.newLatLngZoom(POS, 13));
+                              
+                        //CameraUpdateFactory.newLatLngZoom(POS, 25));
+                    }
+
+                    public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+                    public void onProviderEnabled(String provider) {}
+
+                    public void onProviderDisabled(String provider) {}
+                  };
+
+                // Register the listener with the Location Manager to receive location updates
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+                //----------------
+      
+        }
+		
+		
+		
+		
+		//------------------------------
+		
+		/*
 		public void onActivityCreated(Bundle savedInstanceState){
 			super.onActivityCreated(savedInstanceState);
 			pd = new ProgressDialog(getActivity());
@@ -143,9 +210,14 @@ public class MapActivity extends ActionBarActivity {
 		    mapper.moveCamera(CameraUpdateFactory.newLatLngZoom(POS, 50));*/
 		
 		    // Zoom in, animating the camera.
-		    mapper.animateCamera(CameraUpdateFactory.zoomTo(25), 2000, null);
-			    /*Marker hamburg = mapper.addMarker(new MarkerOptions().position(POS)
-			        .title("You are here"));*/
+		    //mapper.animateCamera(CameraUpdateFactory.zoomTo(25), 2000, null);
+		    
+		    
+			    //Marker hamburg = mapper.addMarker(new MarkerOptions().position(POS)
+			      //  .title("You are here"));
+		
+		/*not needed
+		
 			    LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
 			    LocationListener locationListener = new LocationListener() {
 				    public void onLocationChanged(Location location) {
@@ -159,7 +231,9 @@ public class MapActivity extends ActionBarActivity {
 					    mapper.moveCamera(CameraUpdateFactory.newLatLngZoom(POS, 12));
 					
 					    // Zoom in, animating the camera.
-					    mapper.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+					    
+					    //Get rid of animation... too slow
+					   // mapper.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
 					   
 				        
 				    }
@@ -185,6 +259,10 @@ public class MapActivity extends ActionBarActivity {
 				lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,2000, 10, locationListener);
 			
 		}
+		*/
+		
+		
+		
 		
 		public void mapStuff(){
 			boolean printRed = true;
