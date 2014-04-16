@@ -3,20 +3,33 @@
     <color name="actionbar_color">#800020</color>
 	<color name="actionbartext_color">#FFFFFF</color>
     <!-- the theme applied to the application or activity -->
+    
+  
     <style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
-        <!-- API 14 theme customizations can go here. -->
+         
+        
+        
+        
         <item name="android:actionBarStyle">@style/MyActionBar</item>
+      
+      
         
     </style>
 
     <!-- ActionBar styles -->
+    
+
     <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        
         <item name="android:titleTextStyle">@style/MyActionBarColor</item>
         <item name="android:background">@color/actionbar_color</item>
          <item name="android:textColor">#FFFFFF</item>
+         
     </style>
 
 	<style name="MyActionBarColor" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
     <item name="android:textColor">@color/actionbartext_color</item>
   </style>
+
+	
 </resources>

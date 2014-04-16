@@ -1,3 +1,11 @@
+/*
+ * The activity for the pools/bain libres.
+ * 
+ * Mario -- Cleaning up and understanding...
+ * 
+ */
+
+
 package com.hack.sherhackathon;
 
 import java.io.BufferedReader;
@@ -9,37 +17,31 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Locale;
-import java.util.Set;
+
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
 
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
+
 import android.widget.*;
 import android.location.Location;
 import android.location.LocationListener;
@@ -54,70 +56,48 @@ public class MapActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
-
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
-		//LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE); 
+		
+		//ActionBar actionBar = getSupportActionBar();
+		//actionBar.hide();
 		
 	}
 	
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		//getMenuInflater().inflate(R.menu.map, menu);
-		return true;
-	}
 	
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	public static class PlaceholderFragment extends Fragment {
-		static final LatLng HAMBURG = new LatLng(53.558, 9.927);
-		  static final LatLng KIEL = new LatLng(53.551, 9.993);
+/**
+ * A placeholder fragment containing a simple view.
+ * 
+ * Not sure --- but significant part of this activity...
+ * 
+ */
+	
+public static class PlaceholderFragment extends Fragment {
+		  
 		  LatLng POS;
 		  LatLng piscine;
-		  private GoogleMap map;
 		  private GoogleMap mapper;
 		  JSONObject js;
 		  JSONObject jse;
 		  TextView tx;
 		  double lat;
 		  double longi;
-		  ArrayList pairs=new ArrayList();
-		  ArrayList names=new ArrayList();
-		  ArrayList tel=new ArrayList();
-		  ArrayList pairs2=new ArrayList();
-          ArrayList names2=new ArrayList();
+		  ArrayList pairs = new ArrayList();
+		  ArrayList names = new ArrayList();
+		  ArrayList tel = new ArrayList();
+		  ArrayList pairs2 = new ArrayList();
+          ArrayList names2 = new ArrayList();
 		  double myLat;
 		  double myLong;
 		 String currName;
 		 ProgressDialog pd;
 		  
-		public PlaceholderFragment() {
-		}
 
 		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_map, container,
-					false);
+		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+			View rootView = inflater.inflate(R.layout.fragment_map, container, false);
 			return rootView;
 		}
 		
@@ -178,96 +158,15 @@ public class MapActivity extends ActionBarActivity {
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
                 //----------------
       
-        }
-		
-		
-		
-		
-		//------------------------------
-		// version that starts in africa ... then gives multiple points.
-		
-		/*
-		public void onActivityCreated(Bundle savedInstanceState){
-			super.onActivityCreated(savedInstanceState);
-			pd = new ProgressDialog(getActivity());
-            pd.setTitle("On cherche...");
-            pd.setMessage("Juste un instant...");
-            pd.setCancelable(false);
-            pd.setIndeterminate(true);
-            pd.show();
-			//tx=(TextView)getView().findViewById(R.id.testText);
-			//map = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-			new SportPoints().execute();
-			
-
-			//piscine=new LatLng(myLat, myLong);
-			mapper = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map))
-			        .getMap();
-		/*	POS=new LatLng(45.4,-71.9);
-			Marker here = mapper.addMarker(new MarkerOptions().position(POS)
-			        .title("You are here")
-			        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
-			 // Move the camera instantly to your location with a zoom of 25.
-		    mapper.moveCamera(CameraUpdateFactory.newLatLngZoom(POS, 50));*/
-		
-		    // Zoom in, animating the camera.
-		    //mapper.animateCamera(CameraUpdateFactory.zoomTo(25), 2000, null);
-		    
-		    
-			    //Marker hamburg = mapper.addMarker(new MarkerOptions().position(POS)
-			      //  .title("You are here"));
-		
-		/*not needed
-		
-			    LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-			    LocationListener locationListener = new LocationListener() {
-				    public void onLocationChanged(Location location) {
-				        myLong = location.getLongitude();
-				        myLat = location.getLatitude();
-				        POS=new LatLng(myLat, myLong);
-						Marker here = mapper.addMarker(new MarkerOptions().position(POS)
-						        .title("You are here")
-						        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
-						 // Move the camera instantly to your location with a zoom of 25.
-					    mapper.moveCamera(CameraUpdateFactory.newLatLngZoom(POS, 12));
-					
-					    // Zoom in, animating the camera.
-					    
-					    //Get rid of animation... too slow
-					   // mapper.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
-					   
-				        
-				    }
-
-					@Override
-					public void onProviderDisabled(String arg0) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void onProviderEnabled(String provider) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void onStatusChanged(String provider, int status, Bundle extras) {
-						// TODO Auto-generated method stub
-						
-					}
-				};
-				lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,2000, 10, locationListener);
-			
-		}
-		*/
-		
+        }		
 		
 		
 		
 		public void mapStuff(){
 			boolean printRed = true;
-			Log.d("Length of values", "Pairs: "+pairs.size());
+			//Log.d("Length of values", "Pairs: "+pairs.size());			
+			
+			// print the open pools
 			for(int i=0; i<pairs.size(); i++){
 				printRed = false;
 				mapper = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
@@ -301,7 +200,7 @@ public class MapActivity extends ActionBarActivity {
         if (printRed){
             
             for(int i=0; i<pairs2.size(); i++){
-                map = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+                ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
             piscine=new LatLng((double)((ArrayList)pairs2.get(i)).get(0), (double)((ArrayList)pairs2.get(i)).get(1));
             currName=(String)names2.get(i);
             Marker hamburg = mapper.addMarker(new MarkerOptions().position(piscine)
