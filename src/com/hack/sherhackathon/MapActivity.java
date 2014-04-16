@@ -184,6 +184,7 @@ public class MapActivity extends ActionBarActivity {
 		
 		
 		//------------------------------
+		// version that starts in africa ... then gives multiple points.
 		
 		/*
 		public void onActivityCreated(Bundle savedInstanceState){
